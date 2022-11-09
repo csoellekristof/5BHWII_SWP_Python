@@ -6,7 +6,7 @@ for i in range(1,46):
 
 
 for i in range(1000):
-    lottolist = []
+    lottolist = [1,45]
 
     for i in range(1,46):
         lottolist.append(i)
