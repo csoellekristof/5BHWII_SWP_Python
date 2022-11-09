@@ -2,7 +2,7 @@ import random
 
 handysmbols = []
 handvalues = []
-yourhand = []
+hand = []
 lastcard = []
 statistic = {
     "Royal Flush": 0,
@@ -18,7 +18,7 @@ statistic = {
 }
 
 
-def getsymbolofnumber(numbers):
+def getsymbol(numbers):
     numbers %= 4
     if numbers == 0:
         return "Heart"
@@ -35,18 +35,18 @@ def getcardnumber(number):
     return number
 
 
-def getcards(mind, maxi, cardsquanitity):
+def getcards(minimum, maximum, amount):
     cards = []
-    for g in range(mind, maxi + 1):
+    for g in range(minimum, maximum + 1):
         cards.append(g)
-    for j in range(cardsquanitity):
-        zufallsindex = random.randrange(0, maxi - mind + 1)
+    for j in range(amount):
+        randindex = random.randrange(0, maximum - minimum + 1)
         lastPosition = len(cards) - 1 - j
-        cards[zufallsindex], cards[lastPosition] = cards[lastPosition], cards[zufallsindex]
-    return cards[-cardsquanitity:]
+        cards[randindex], cards[lastPosition] = cards[lastPosition], cards[randindex]
+    return cards[-amount:]
 
 
-def getrealvalue(value):
+def convertvalue(value):
     realvalue = value + 2
     if realvalue == 11:
         return "J"
@@ -55,7 +55,7 @@ def getrealvalue(value):
     if realvalue == 13:
         return "K"
     if realvalue == 14:
-        return "Ace"
+        return "A"
     return realvalue
 
 
@@ -104,8 +104,8 @@ if __name__ == "__main__":
         yourCards = getcards(1, 52, 5)
         for i in yourCards:
             handvalues.append(getcardnumber(i))
-            handysmbols.append(getsymbolofnumber(i))
-            yourhand.append([getrealvalue(getcardnumber(i)), getsymbolofnumber(i)])
+            handysmbols.append(getsymbol(i))
+            hand.append([convertvalue(getcardnumber(i)), getsymbol(i)])
         checkforcombos(handysmbols, handvalues)
         handvalues = []
         handysmbols = []
