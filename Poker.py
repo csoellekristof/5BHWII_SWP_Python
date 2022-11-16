@@ -1,5 +1,6 @@
 import random
 
+rounds = 100000
 handysmbols = []
 handvalues = []
 hand = []
@@ -15,6 +16,22 @@ statistic = {
     "Two pairs": 0,
     "Pair": 0,
     "High Card": 0
+}
+
+probabilites = {
+
+    "Royal Flush": 0.000154 / 100,
+    "Straight Flush": 0.00139 / 100,
+    "Four of a Kind": 0.02401 / 100,
+    "Full House": 0.1441 / 100,
+    "Flush": 0.1965 / 100,
+    "Straight": 0.3925 / 100,
+    "Three of a Kind": 2.1128 / 100,
+    "Two pairs": 4.7539 / 100,
+    "Pair": 42.2569 / 100,
+    "High Card": 50.1177 / 100
+
+
 }
 
 
@@ -58,6 +75,12 @@ def convertvalue(value):
         return "A"
     return realvalue
 
+def getdifference(statistic, probabilites):
+    difference = {}
+    for k in statistic.keys():
+        difference[k] = (probabilites[k] - (statistic[k] / rounds)) * 100
+    return difference
+
 
 def checkforpairs(values):
     duplicates = [number for number in values if values.count(number) > 1]
@@ -99,8 +122,9 @@ def checkforcombos(symbols, values):
     if not combo:
         statistic["High Card"] += 1
 
+
 if __name__ == "__main__":
-    for x in range(100000):
+    for x in range(rounds):
         yourCards = getcards(1, 52, 5)
         for i in yourCards:
             handvalues.append(getcardnumber(i))
@@ -109,4 +133,7 @@ if __name__ == "__main__":
         checkforcombos(handysmbols, handvalues)
         handvalues = []
         handysmbols = []
+    print("Statistik:\n")
     print(statistic)
+    print("\nAbweichungen der Wahrscheinlichkeiten in %\n")
+    print(getdifference(statistic, probabilites))
