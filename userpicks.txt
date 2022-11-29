@@ -1,0 +1,1 @@
+{"User": {"Gewonnen": 0, "Schere":0, "Papier":0, "Stein":0, "Echse":0, "Spock":0}, "Kristof": {"Gewonnen": 1, "Schere": 0, "Papier": 0, "Stein": 1, "Echse": 1, "Spock": 1}, "Kata": {"Gewonnen": 1, "Schere": 1, "Papier": 2, "Stein": 1, "Echse": 2, "Spock": 2}}
