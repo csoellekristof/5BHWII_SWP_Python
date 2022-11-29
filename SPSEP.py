@@ -9,7 +9,7 @@ def cp_pick_hand():
 
 def check_user_win(user_hand, cp_hand):
     if hand_choices.index(user_hand) == hand_choices.index(cp_hand) -1 or hand_choices.index(user_hand) == hand_choices.index(cp_hand) +2:
-        return "W"
+        return True
     else:
         return False
 
