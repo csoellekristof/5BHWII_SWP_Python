@@ -1,7 +1,6 @@
 import random
 import json
 
-
 hand_choices = ["Schere", "Papier", "Stein", "Echse", "Spock"]
 
 def cp_pick_hand():
