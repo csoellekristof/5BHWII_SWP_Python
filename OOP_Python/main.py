@@ -1,16 +1,73 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+from enum import Enum
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+class Gender(Enum):
+    MALE = 1
+    FEMALE = 2
+
+class Person:
+    def __init__(self, name, gender):
+        self.name = name
+        self.gender = gender
+
+class Mitarbeiter(Person):
+    def __init__(self, name, gender):
+        super.__init__(self, name, gender)
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+class Gruppenleiter(Mitarbeiter):
+    def __init__(self,name,gender):
+        super.__init__(self, name, gender)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+class Firma:
+    def __init__(self,name):
+        self.name = name
+        self.abteilungen = []
+
+    def getBiggestDepartment(self):
+        anzMitarbeiter = 0
+        abteilung = None
+        for a in self.abteilungen:
+            nonlocal anzMitarbeiter
+            nonlocal abteilung
+            if a.getAnzMitarbeiter > anzMitarbeiter:
+                anzMitarbeiter = a.getAnzMitarbeiter
+                abteilung = a
+        return a.name
+
+    def getMaleFemaleRatio(self):
+        ratio = {"Male": 0, "Female": 0}
+        all = 0
+        males = 0
+        females = 0
+
+        for a in self.abteilungen:
+            nonlocal all
+            nonlocal males
+            nonlocal females
+            for m in a.mitarbeiter:
+                if m.gender == Gender.MALE:
+
+
+
+
+
+
+
+
+class Abteilung:
+    def __init__(self, name, gruppenleiter):
+        self.name = name
+        self.gruppenleiter = [gruppenleiter]
+        self.mitarbeiter = []
+
+    def getAnzMitarbeiter(self):
+        return len(self.mitarbeiter)
+
+
+
+
+
+p1 = Person("Wolfgang", Gender.MALE,Abteilung.PRODUKTION)
+
