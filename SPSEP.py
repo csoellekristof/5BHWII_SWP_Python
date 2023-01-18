@@ -1,12 +1,10 @@
 import json
-import secrets
-from flask import Flask, render_template, redirect
-from flask_restful import Resource, Api
 
-app = Flask(__name__)
-app.secret_key = secrets.token_hex(16)
+import requests
+
+
 hand_choices = ["Schere", "Papier", "Stein", "Echse", "Spock"]
-api = Api(app)
+
 
 def cp_pick_hand(user, userpicks, rounds):
 
@@ -27,35 +25,28 @@ def cp_pick_hand(user, userpicks, rounds):
     else:
         return beats_2
 
-
-
-def read_userpicks():
-    with open("userpicks.txt", "r") as f:
-        return json.loads(f.read())
-
-def write_userpicks(userpicks):
-    with open("userpicks.txt", "w") as f:
-        f.write(json.dumps(userpicks))
-
-
 def check_user_win(user_hand, cp_hand):
     if hand_choices.index(user_hand) == hand_choices.index(cp_hand) -1 or hand_choices.index(user_hand) == hand_choices.index(cp_hand) + 2 % 5:
         return True
     else:
         return False
-@app.route("/stats")
-def home():
-    return render_template('stats.html',userpicks = read_userpicks())
 
-@app.route("/")
+def getUserPicks():
+    return requests.get("http://127.0.0.1:5000/getstats").json()
+
+def uploadUserPicks(userpicks, user):
+    url = "http://127.0.0.1:5000/putstats"
+    senddata = {"user": user, "stats": json.dumps(userpicks[user])}
+    return requests.put(url, senddata)
+
 def play():
-    userpicks = read_userpicks()
+    userpicks = getUserPicks()
     user = input("Gebe deine Name ein:")
     rounds = 0
     while(True):
         user_hand = input("Wähle deinen Hand: Schere, Papier, Stein, Echse, Spock oder 'quit'")
         if user_hand == "quit":
-            return redirect("/stats", code=302)
+            exit(0)
         cp_hand = cp_pick_hand(user, userpicks,rounds)
         if user in userpicks.keys():
             userpicks[user][user_hand] = userpicks[user][user_hand] + 1
@@ -79,15 +70,10 @@ def play():
             print("Du hast leider verloren! :(")
 
         rounds += 1
-        write_userpicks(userpicks)
+        uploadUserPicks(userpicks, user)
 
 
-class GetStats(Resource):
-    def get(self):
-        return read_userpicks()
-
-api.add_resource(GetStats, "/getstats")
 
 if __name__ == "__main__":
-    app.run()
+    play()
 
