@@ -1,7 +1,5 @@
 import json
 
-import requests
-
 
 hand_choices = ["Schere", "Papier", "Stein", "Echse", "Spock"]
 

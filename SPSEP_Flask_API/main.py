@@ -1,7 +1,6 @@
 import json
 import secrets
-import requests
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, request
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
