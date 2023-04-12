@@ -10,8 +10,8 @@ public class App{
         drucker1.print(text);
         drucker2.print(text);
 
-        drucker1 = switchDrucker(drucker1);
-        drucker2 = switchDrucker(drucker2);
+        drucker1 = switchDrucker(drucker1,"SWDrucker");
+        drucker2 = switchDrucker(drucker2,"ColorDrucker");
 
         drucker1.print(text);
         drucker2.print(text);
@@ -19,16 +19,19 @@ public class App{
     }
 
 
-    private static Drucker switchDrucker(Drucker drucker){
-        String className = drucker.getClass().getName();
+    private static Drucker switchDrucker(Drucker drucker, String type){
     
-        if(className.equals("ColorDrucker")){
-            drucker = new SWDrucker();
-        
-
-        }
-        else if (className.equals("SWDrucker")){
+        switch(type){
+            case "ColorDrucker":
             drucker = new ColorDrucker();
+            break;
+            case "SWDrucker":
+            drucker = new SWDrucker();
+            break;
+            default:
+            System.out.print("False input");
+            return drucker;
+
         }
         return drucker;
 
